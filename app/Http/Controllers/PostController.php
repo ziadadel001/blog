@@ -10,14 +10,13 @@ class PostController extends Controller
 {
     public function index()
     {
-        //select * from posts;
-        $postsFromDB = Post::all(); //collection object
+        $postsFromDB = Post::all(); 
 
         return view('posts.index', ['posts' => $postsFromDB]);
     }
 
-    //convention over configuration
-    public function show(Post $post) //type hinting
+    
+    public function show(Post $post) 
     {
 
         return view('posts.show', ['post' => $post]);
@@ -25,7 +24,7 @@ class PostController extends Controller
 
     public function create()
     {
-        //select * from users;
+        
         $users = User::all();
 
         return view('posts.create', ['users' => $users]);
@@ -33,7 +32,7 @@ class PostController extends Controller
 
     public function store()
     {
-        //code to validate the data
+        
 
         request()->validate([
             'title' => ['required', 'min:3'],
@@ -41,7 +40,7 @@ class PostController extends Controller
             'post_creator' => ['required', 'exists:users,id'],
         ]);
 
-        //1- get the user data
+        
         $data = request()->all();
 
         $title = request()->title;
@@ -78,7 +77,7 @@ class PostController extends Controller
             'description' => $description,
             'user_id' => $postCreator,
         ]);
-        //3- redirection to posts.show
+        // redirection to posts.show
         return to_route('posts.show', $postId);
     }
 
@@ -89,7 +88,7 @@ class PostController extends Controller
 
         Post::where('id', $postId)->delete();
 
-        //2- redirect to posts.index
+        // redirect to posts.index
         return to_route('posts.index');
     }
 }
